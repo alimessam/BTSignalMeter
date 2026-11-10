@@ -1,0 +1,24 @@
+name: build
+on: [push, workflow_dispatch]
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build app
+        run: ./build.ps1
+      - name: Build installer
+        run: |
+          choco install innosetup -y --no-progress
+          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer.iss
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bt-signal-meter-installer
+          path: Output/*.exe
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bt-signal-meter-win-x64
+          path: dist/
