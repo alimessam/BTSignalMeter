@@ -1,0 +1,10 @@
+bin/
+obj/
+dist/
+build/
+__pycache__/
+.venv/
+*.spec
+*.user
+.vs/
+Output/
